@@ -34,21 +34,37 @@ app.get('/api/health', (req, res) => {
 const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/fitness-tracker';
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
+// Connect to MongoDB (only once, reuse connection)
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) {
+    return;
+  }
+  
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    isConnected = true;
     console.log('Connected to MongoDB');
-    // Only listen on port if not in Vercel serverless environment
-    if (process.env.VERCEL !== '1') {
-      app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-      });
-    }
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1);
+    // Don't throw in serverless - let it retry on next request
+    isConnected = false;
+  }
+};
+
+// Connect to database (async, don't block)
+connectDB().catch(console.error);
+
+// Only listen on port if not in Vercel serverless environment
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+}
 
 // Export for Vercel serverless functions
 export default app;

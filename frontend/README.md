@@ -1,4 +1,4 @@
-# Fitness Workout Tracker - Frontend
+# GymLog - Frontend
 
 ## Setup
 
@@ -7,7 +7,7 @@
 npm install
 ```
 
-2. Make sure the backend server is running on `http://localhost:5000`
+2. Make sure the backend server is running on `http://localhost:5001`
 
 3. Start the development server:
 ```bash
@@ -18,13 +18,15 @@ The app will open at `http://localhost:3000`
 
 ## Features
 
-- User authentication (Login/Signup)
-- Dashboard with workout overview
+- Dashboard with workout overview and statistics
 - Create, edit, and delete workouts
 - Add exercises to workouts with details (sets, reps, weight, duration, distance)
+- Automatic calorie calculation
 - Track exercise completion
 - Add notes to exercises and workouts
 - View workout reports with completion statistics
 - Filter workouts by status (all, pending, completed)
 - Date-based workout scheduling
+- Workout name suggestions
+- Exercise recommendations
 
