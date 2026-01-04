@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import WorkoutSuggestions from '../components/WorkoutSuggestions';
 import { commonWorkoutNames } from '../utils/commonWorkoutNames';
 import { getExerciseSuggestions } from '../utils/workoutExerciseSuggestions';
+import API_BASE_URL from '../config/api';
 
 const WorkoutForm = () => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const WorkoutForm = () => {
   const fetchExercises = async () => {
     try {
       setLoadingExercises(true);
-      const response = await axios.get('http://localhost:5001/api/exercises');
+      const response = await axios.get(`${API_BASE_URL}/api/exercises`);
       console.log('Fetched exercises:', response.data?.length || 0);
       if (response.data && response.data.length > 0) {
         setAvailableExercises(response.data);
@@ -58,7 +59,7 @@ const WorkoutForm = () => {
 
   const fetchWorkout = async () => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/workouts/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/api/workouts/${id}`);
       const workout = response.data;
       const exercises = workout.exercises.map(ex => ({
         ...ex,
@@ -143,7 +144,7 @@ const WorkoutForm = () => {
 
   const fetchRecommendedExercises = async (muscleGroup) => {
     try {
-      const response = await axios.get('http://localhost:5001/api/recommendations/exercises', {
+      const response = await axios.get(`${API_BASE_URL}/api/recommendations/exercises`, {
         params: { muscleGroup: muscleGroup || 'All' },
       });
       setRecommendedExercises(response.data);
@@ -184,7 +185,7 @@ const WorkoutForm = () => {
         if (field === 'weight') exerciseData.weight = convertedValue;
         if (field === 'distance') exerciseData.distance = convertedValue;
         
-        const response = await axios.post('http://localhost:5001/api/recommendations/calculate-calories', exerciseData);
+        const response = await axios.post(`${API_BASE_URL}/api/recommendations/calculate-calories`, exerciseData);
         updatedExercises[index].caloriesBurned = response.data.calories || 0;
         
         // Recalculate total calories after getting the response
@@ -232,9 +233,9 @@ const WorkoutForm = () => {
       };
 
       if (isEdit) {
-        await axios.put(`http://localhost:5001/api/workouts/${id}`, workoutData);
+        await axios.put(`${API_BASE_URL}/api/workouts/${id}`, workoutData);
       } else {
-        await axios.post('http://localhost:5001/api/workouts', workoutData);
+        await axios.post(`${API_BASE_URL}/api/workouts`, workoutData);
       }
 
       navigate('/workouts');

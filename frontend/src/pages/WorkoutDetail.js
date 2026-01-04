@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'date-fns';
+import API_BASE_URL from '../config/api';
 
 const WorkoutDetail = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const WorkoutDetail = () => {
 
   const fetchWorkout = async () => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/workouts/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/api/workouts/${id}`);
       setWorkout(response.data);
     } catch (error) {
       setError('Failed to load workout');
@@ -29,7 +30,7 @@ const WorkoutDetail = () => {
   const handleExerciseUpdate = async (exerciseId, updates) => {
     try {
       await axios.patch(
-        `http://localhost:5001/api/workouts/${id}/exercises/${exerciseId}`,
+        `${API_BASE_URL}/api/workouts/${id}/exercises/${exerciseId}`,
         updates
       );
       fetchWorkout();
@@ -42,7 +43,7 @@ const WorkoutDetail = () => {
   const handleWorkoutComplete = async () => {
     try {
       const newStatus = !workout.isCompleted;
-      await axios.put(`http://localhost:5001/api/workouts/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/workouts/${id}`, {
         isCompleted: newStatus,
       });
       await fetchWorkout();

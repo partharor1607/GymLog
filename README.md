@@ -160,6 +160,29 @@ The app automatically calculates calories burned based on:
 - **Modern UI**: Clean, minimalist design with smooth animations
 - **Responsive**: Works on desktop and mobile devices
 
+## Deployment
+
+### Deploy to Vercel
+
+See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md) for detailed deployment instructions.
+
+**Quick Deploy:**
+
+1. **Backend:**
+   - Go to [vercel.com](https://vercel.com)
+   - Import repository
+   - Set root directory to `backend`
+   - Add environment variable: `MONGODB_URI`
+   - Deploy
+
+2. **Frontend:**
+   - Create new project in Vercel
+   - Set root directory to `frontend`
+   - Add environment variable: `REACT_APP_API_URL` (your backend URL)
+   - Deploy
+
+Your app will be live at: `https://your-project.vercel.app`
+
 ## License
 
 ISC

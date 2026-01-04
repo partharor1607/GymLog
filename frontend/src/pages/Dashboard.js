@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'date-fns';
+import API_BASE_URL from '../config/api';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -17,7 +18,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const params = filter !== 'all' ? { status: filter } : {};
-      const response = await axios.get('http://localhost:5001/api/workouts', { params });
+      const response = await axios.get(`${API_BASE_URL}/api/workouts`, { params });
       setWorkouts(response.data);
     } catch (error) {
       console.error('Error fetching workouts:', error);
@@ -30,7 +31,7 @@ const Dashboard = () => {
     try {
       const newStatus = !currentStatus;
       const workout = workouts.find(w => w._id === workoutId);
-      await axios.put(`http://localhost:5001/api/workouts/${workoutId}`, {
+      await axios.put(`${API_BASE_URL}/api/workouts/${workoutId}`, {
         isCompleted: newStatus,
       });
       await fetchWorkouts();

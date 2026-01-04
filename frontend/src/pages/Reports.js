@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format, subDays } from 'date-fns';
@@ -21,7 +22,7 @@ const Reports = () => {
     setError('');
 
     try {
-      const response = await axios.get('http://localhost:5001/api/reports/workouts', {
+      const response = await axios.get(`${API_BASE_URL}/api/reports/workouts`, {
         params: {
           startDate: format(startDate, 'yyyy-MM-dd'),
           endDate: format(endDate, 'yyyy-MM-dd'),
